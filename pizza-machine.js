@@ -3,8 +3,8 @@ import PizzaMachineScene from './scenes/PizzaMachineScene.js'
 
 const config = {
 	type: Phaser.AUTO,
-	width: window.innerWidth,
-	height: window.innerHeight,
+	width: 1024,
+	height: 512,
 	backgroundColor: '#ffffff',
 	physics: {
 		default: 'arcade',
