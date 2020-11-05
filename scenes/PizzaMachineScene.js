@@ -3,7 +3,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		super('pizza-machine');
 
 		this.player = null;
-		this.pizza = null;
+		this.pizzas = null;
 		this.cursors = null;
 
 		// parameters
@@ -30,22 +30,28 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.player.body.maxSpeed 
 			= this.config.playerMaxSpeed;
 
+		this.pizzas = this.physics.add.group();
 
-		this.pizza = this.physics.add.sprite(
+		this.spawnPizza();
+
+		this.cursors = this.input.keyboard.createCursorKeys();
+	}
+
+	spawnPizza() {
+		let pizza = this.pizzas.create(
 			Math.random() * (1024 - 64),
 			0, 
 			'pizza'
 		);
-		this.pizza.setCollideWorldBounds(true);
-		this.pizza.body.bounce.y = 0.75;
-		this.pizza.body.velocity.x = 
+		pizza.setCollideWorldBounds(true);
+		pizza.body.bounce.y = 0.75;
+		pizza.body.velocity.x = 
 			(this.config.pizzaSpawnSpeed / 2)
 			- Math.random() * this.config.pizzaSpawnSpeed;
-		this.pizza.body.angularVelocity = 
+		pizza.body.velocity.y = 40;
+		pizza.body.angularVelocity = 
 			(this.config.pizzaRotation / 2) 
 			- Math.random() * this.config.pizzaRotation;
-
-		this.cursors = this.input.keyboard.createCursorKeys();
 	}
 
 	update() {
@@ -62,10 +68,11 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			this.player.body.velocity.x = 0;
 		}
 
-		this.physics.add.collider(this.player, this.pizza, this.collide, null, this);
+		this.physics.add.collider(this.player, this.pizzas, this.collide, null, this);
 	}
 
 	collide(player, pizza) {
 		pizza.destroy();
+		this.spawnPizza();
 	}
 }
