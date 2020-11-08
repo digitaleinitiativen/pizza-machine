@@ -36,3 +36,15 @@ Ui, wir können das spielen unter.
 * Amaranth Red (rot): #D72638
 * Blue Munsell (blau): #2D93AD
 * Inspiration: https://electronicplastic.com/game/?company=&id=429&skip=&filter=&search=chef
+
+
+## Contribute
+
+* Fork das Projekt repository
+* Clone deine Fork (git clone ...)
+* Remote origin sollte der Fork sein (git remote add origin ...)
+* Stetze upstream auf das orig. repo (git remote add upstream ...)
+
+orig. project repo (upstream)  -> dein fork (origin) -> lokales working directory.
+
+Halte dein master up to date ``git pull upstream master``. Erstelle einen neuen branch ``git checkout -b readme_contribute`` und mache deine aenderungen. Commite diese und push sie in deinen Fork ``git commit -m "add contribute section to readme" && git push origin readme_contribute``. Erstelle deine Pull Request.
