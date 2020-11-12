@@ -22,9 +22,13 @@ Ui, wir können das spielen unter.
 * Richtung DI trimmen
 
 
-## TODOs
+## TODOs - Show II
 
-[ ]
+[ ] Hintergrundbild erstellen
+[ ] Pizzakoch (Auffanger) in 5 Positionen
+[ ] Herunterfallende Pizza gestalten
+[ ] Player Übergangslose Stati umstellen
+[ ] Pizza 5 Stati (inklusive auf dem Boden liegen)
 
 
 ## Alle relevanten Informationen
