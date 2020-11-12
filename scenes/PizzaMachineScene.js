@@ -16,13 +16,21 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image('player', 'assets/player.png');
-		this.load.image('pizza', 'assets/pizza.png');
+		this.load.spritesheet('player', 'assets/player-2.png', {
+			frameWidth: 236,
+			frameHeigth: 320
+		});
+		this.load.image('pizza', 'assets/pizza-2.png');
+		this.load.image('background', 'assets/background.png');
 	}
 
 	create() {
+
+		this.add.image(512, 256, 'background');
+
+
 		this.player = this.physics.add.sprite(
-			(1024 - 64) / 2
+			(1024 - 236) / 2
 			, 512
 			, 'player'
 		);

@@ -41,6 +41,14 @@ Ui, wir können das spielen unter.
 * Blue Munsell (blau): #2D93AD
 * Inspiration: https://electronicplastic.com/game/?company=&id=429&skip=&filter=&search=chef
 
+## Benützte Bilder
+
+* https://unsplash.com/photos/Z5WTjnDMslw
+* https://unsplash.com/photos/imBSxksI7DA
+* https://unsplash.com/photos/7OFnb7NOvjw
+* https://unsplash.com/photos/x00CzBt4Dfk
+
+
 
 ## Contribute
 
