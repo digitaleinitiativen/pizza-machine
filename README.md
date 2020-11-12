@@ -47,4 +47,8 @@ Ui, wir können das spielen unter.
 
 orig. project repo (upstream)  -> dein fork (origin) -> lokales working directory.
 
-Halte dein master up to date ``git pull upstream master``. Erstelle einen neuen branch ``git checkout -b readme_contribute`` und mache deine aenderungen. Commite diese und push sie in deinen Fork ``git commit -m "add contribute section to readme" && git push origin readme_contribute``. Erstelle deine Pull Request.
+Halte dein master up to date ``git pull upstream main``. 
+Erstelle einen neuen branch ``git checkout -b readme_contribute`` 
+und mache deine aenderungen. Commite diese und push sie in deinen Fork
+``git commit -m "add contribute section to readme" && git push origin readme_contribute``. 
+Erstelle deine Pull Request.
