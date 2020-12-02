@@ -5,9 +5,16 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.player = null;
 		this.positions = null;
 		this.playerPosition = null;
+		this.pizzaDrops = null;
+		this.pizzaPosition = {
+			x: null,
+			y: null
+		}
 		this.pizzas = null;
+		this.pizza = null;
 		this.cursors = null;
 		this.lastMove = 0;
+		this.lastPizzaMove = 0;
 
 		// parameters
 		this.config = {
@@ -15,7 +22,8 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			pizzaSpawnSpeed: 200,
 			playerMaxSpeed: 800,
 			playerAcceleration: 2000,
-			tilt: 300
+			tilt: 300,
+			pizzaTick: 300
 		}
 	}
 
@@ -42,7 +50,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.player.setOrigin(0, 1);
 		this.positionPlayer(this.playerPosition);
 
-		this.pizzas = this.physics.add.group();
+		this.pizzas = this.add.group();
 
 		this.spawnPizza();
 
@@ -87,26 +95,53 @@ export default class PizzaMachineScene extends Phaser.Scene {
 				,	inverted: true
 			}
 		];
+		let j = 0;
+		let drops = [
+			this.scale.height / 7 * j++
+			,	this.scale.height / 7 * j++
+			,	this.scale.height / 7 * j++
+			,	this.scale.height / 7 * j++
+			,	this.scale.height / 7 * j++
+			,	this.scale.height / 7 * j++
+			,	this.scale.height / 7 * j++
+		];
+		this.pizzaDrops = [
+			drops
+			, drops
+			, drops
+			, drops
+			, drops
+			, drops
+			, drops
+			, drops
+		];
 		this.playerPosition = Math.floor(
 			Math.random() * (this.positions.length - 1)
 		);
 	}
 
 	spawnPizza() {
-		let pizza = this.pizzas.create(
-			Math.random() * (1024 - 64),
-			0, 
+		this.pizzaPosition.x = Math.floor(
+			Math.random() * (this.positions.length - 1)
+		);
+		this.pizzaPosition.y = 0;
+		this.pizza = this.pizzas.create(
+			this.positions[this.pizzaPosition.x].x,
+			this.pizzaDrops[this.pizzaPosition.x][this.pizzaPosition.y],
 			'pizza'
 		);
-		pizza.setCollideWorldBounds(true);
-		pizza.body.bounce.y = 0.75;
-		pizza.body.velocity.x = 
-			(this.config.pizzaSpawnSpeed / 2)
-			- Math.random() * this.config.pizzaSpawnSpeed;
-		pizza.body.velocity.y = 40;
-		pizza.body.angularVelocity = 
-			(this.config.pizzaRotation / 2) 
-			- Math.random() * this.config.pizzaRotation;
+		this.pizza.setOrigin(0, 0);
+	}
+
+	positionPizza(position) {
+		this.pizzaPosition.y = Math.max(0, Math.min(position, this.pizzaDrops[this.pizzaPosition.x].length - 1));
+		this.pizza.setPosition(
+			this.positions[this.pizzaPosition.x].x
+			,	this.pizzaDrops[this.pizzaPosition.x][this.pizzaPosition.y]
+		);
+		if(this.pizzaPosition.y >= this.pizzaDrops[this.pizzaPosition.x].length - 1) {
+			//lose live
+		}
 	}
 
 	positionPlayer(position) {
@@ -125,10 +160,15 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		else if(this.cursors.right.isDown) {
 			this.positionPlayer(this.playerPosition + 1);
 		}
-	}
 
-	collide(player, pizza) {
-		pizza.destroy();
-		this.spawnPizza();
+		if(this.time.now - this.config.pizzaTick > this.lastPizzaMove) {
+			this.positionPizza(this.pizzaPosition.y + 1);
+			this.lastPizzaMove = this.time.now;
+		}
+
+		if(this.playerPosition == this.pizzaPosition.x && this.pizzaPosition.y > 5) {
+			this.pizza.destroy();
+			this.spawnPizza();
+		}
 	}
 }
