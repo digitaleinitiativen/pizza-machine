@@ -24,11 +24,11 @@ Ui, wir können das spielen unter.
 
 ## TODOs - Show II
 
-* [ ] Hintergrundbild erstellen
-* [ ] Pizzakoch (Auffanger) in 5 Positionen
-* [ ] Herunterfallende Pizza gestalten
-* [ ] Player Übergangslose Stati umstellen
-* [ ] Pizza 5 Stati (inklusive auf dem Boden liegen)
+[x] Hintergrundbild erstellen
+[x] Pizzakoch (Auffanger) in 5 Positionen
+[x] Herunterfallende Pizza gestalten
+[ ] Player Übergangslose Stati umstellen
+[ ] Pizza 5 Stati (inklusive auf dem Boden liegen)
 
 
 ## Alle relevanten Informationen
@@ -47,6 +47,7 @@ Ui, wir können das spielen unter.
 * https://unsplash.com/photos/imBSxksI7DA
 * https://unsplash.com/photos/7OFnb7NOvjw
 * https://unsplash.com/photos/x00CzBt4Dfk
+* <span>Photo by <a href="https://unsplash.com/@aurel__lens?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Aurélien Lemasson-Théobald</a> on <a href="https://unsplash.com/s/photos/tablet?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
 
 
 

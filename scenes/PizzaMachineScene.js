@@ -13,12 +13,29 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			playerMaxSpeed: 800,
 			playerAcceleration: 2000
 		}
+
+		this.playerPositions = [
+			{
+				x: 0 // 157
+				,	frame: 0
+			}, {
+				x: 157
+				,	frame: 4
+			}, {
+				x: 127 * 2
+				,	frame: 2
+			}
+		];
+		this.currentPlayerPosition = Math.floor(
+			Math.random() * (this.playerPositions.length - 1)
+		);
+
 	}
 
 	preload() {
 		this.load.spritesheet('player', 'assets/player-2.png', {
 			frameWidth: 236,
-			frameHeigth: 320
+			frameHeight: 320
 		});
 		this.load.image('pizza', 'assets/pizza-2.png');
 		this.load.image('background', 'assets/background.png');
@@ -31,12 +48,13 @@ export default class PizzaMachineScene extends Phaser.Scene {
 
 		this.player = this.physics.add.sprite(
 			(1024 - 236) / 2
-			, 512
+			, 512 - 320 / 2
 			, 'player'
+			, 0
 		);
-		this.player.setCollideWorldBounds(true);
-		this.player.body.maxSpeed 
-			= this.config.playerMaxSpeed;
+
+		this.player.body.setImmovable(false);
+		this.player.body.setGravityY(0);
 
 		this.pizzas = this.physics.add.group();
 
@@ -63,7 +81,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	update() {
-		if(this.cursors.left.isDown) {
+		/*if(this.cursors.left.isDown) {
 			this.player.body.acceleration.x = 
 				this.config.playerAcceleration * -1;
 		}
@@ -74,7 +92,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		else {
 			this.player.body.acceleration.x = 0;
 			this.player.body.velocity.x = 0;
-		}
+		}*/
 
 		this.physics.add.collider(this.player, this.pizzas, this.collide, null, this);
 	}
