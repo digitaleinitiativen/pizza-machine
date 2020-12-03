@@ -24,11 +24,19 @@ Ui, wir können das spielen unter.
 
 ## TODOs - Show II
 
-[x] Hintergrundbild erstellen
-[x] Pizzakoch (Auffanger) in 5 Positionen
-[x] Herunterfallende Pizza gestalten
-[ ] Player Übergangslose Stati umstellen
-[ ] Pizza 5 Stati (inklusive auf dem Boden liegen)
+- [x] Hintergrundbild erstellen
+- [x] Pizzakoch (Auffänger) in 5 Positionen
+- [x] Herunterfallende Pizza gestalten
+
+## TODOs - Show III
+- [x] Player Übergangslose Stati umstellen
+- [ ] Pizza x Stati (inklusive auf dem Boden liegen)
+- [ ] Pizza aufgefangen werden kann
+
+### Boni
+- [ ] Score anzeigen
+- [ ] Leben anzeigen
+- [ ] Leben reduzieren
 
 
 ## Alle relevanten Informationen

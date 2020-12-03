@@ -5,31 +5,18 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.player = null;
 		this.pizzas = null;
 		this.cursors = null;
+		this.playerPositions = null;
+		this.currentPlayerPosition = null;
+		this.lastMove = null;
 
 		// parameters
 		this.config = {
 			pizzaRotation: 720,
 			pizzaSpawnSpeed: 200,
 			playerMaxSpeed: 800,
-			playerAcceleration: 2000
+			playerAcceleration: 2000,
+			tilt: 300
 		}
-
-		this.playerPositions = [
-			{
-				x: 0 // 157
-				,	frame: 0
-			}, {
-				x: 157
-				,	frame: 4
-			}, {
-				x: 127 * 2
-				,	frame: 2
-			}
-		];
-		this.currentPlayerPosition = Math.floor(
-			Math.random() * (this.playerPositions.length - 1)
-		);
-
 	}
 
 	preload() {
@@ -45,22 +32,66 @@ export default class PizzaMachineScene extends Phaser.Scene {
 
 		this.add.image(512, 256, 'background');
 
-
-		this.player = this.physics.add.sprite(
-			(1024 - 236) / 2
-			, 512 - 320 / 2
+		this.preparePlayerPositions();
+		this.player = this.add.sprite(
+			0
+			, 0
 			, 'player'
 			, 0
 		);
-
-		this.player.body.setImmovable(false);
-		this.player.body.setGravityY(0);
+		this.player.setOrigin(0, 1);
+		this.positionPlayer(Math.floor(
+			Math.random() * (this.playerPositions.length - 1)
+		));
 
 		this.pizzas = this.physics.add.group();
 
 		this.spawnPizza();
 
 		this.cursors = this.input.keyboard.createCursorKeys();
+	}
+
+	positionPlayer(position) {
+		if(this.time.now - this.config.tilt < this.lastMove) return;
+		let p = this.currentPlayerPosition = Math.max(0, Math.min(position, this.playerPositions.length - 1));
+		this.player.setPosition(this.playerPositions[p].x, this.scale.height);
+		this.player.setFrame(this.playerPositions[p].frame);
+		this.lastMove = this.time.now;
+	}
+
+	preparePlayerPositions() {
+		let i = 0, pw = 236;
+		let w = this.scale.width / 9;
+		this.playerPositions = [
+			{
+				x: w * i++
+				,	frame: 0
+			}, {
+				x: w * i++
+				,	frame: 4
+			}, {
+				x: w * i++
+				,	frame: 2
+			}, {
+				x: w * i++
+				,	frame: 3
+			}, {
+				x: w * i++
+				,	frame: 1
+			}, {
+				x: w * i++
+				,	frame: 4
+			}, {
+				x: w * i++
+				,	frame: 0
+			}, {
+				x: w * i++
+				,	frame: 3
+			}, {
+				x: w * i++
+				,	frame: 2
+			}
+		];
 	}
 
 	spawnPizza() {
@@ -81,24 +112,11 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	update() {
-		/*if(this.cursors.left.isDown) {
-			this.player.body.acceleration.x = 
-				this.config.playerAcceleration * -1;
+		if(this.cursors.left.isDown) {
+			this.positionPlayer(this.currentPlayerPosition - 1);
 		}
 		else if(this.cursors.right.isDown) {
-			this.player.body.acceleration.x = 
-				this.config.playerAcceleration;
+			this.positionPlayer(this.currentPlayerPosition + 1);
 		}
-		else {
-			this.player.body.acceleration.x = 0;
-			this.player.body.velocity.x = 0;
-		}*/
-
-		this.physics.add.collider(this.player, this.pizzas, this.collide, null, this);
-	}
-
-	collide(player, pizza) {
-		pizza.destroy();
-		this.spawnPizza();
 	}
 }
