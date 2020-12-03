@@ -30,8 +30,8 @@ Ui, wir können das spielen unter.
 
 ## TODOs - Show III
 - [x] Player Übergangslose Stati umstellen
-- [ ] Pizza x Stati (inklusive auf dem Boden liegen)
-- [ ] Pizza aufgefangen werden kann
+- [x] Pizza x Stati (inklusive auf dem Boden liegen)
+- [x] Pizza aufgefangen werden kann
 
 ### Boni
 - [ ] Score anzeigen
