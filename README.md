@@ -35,8 +35,9 @@ Ui, wir können das spielen unter.
 
 ### Boni
 - [x] Score anzeigen
-- [ ] Leben anzeigen
-- [ ] Leben reduzieren
+- [x] Leben anzeigen
+- [x] Leben reduzieren
+- [x] Game over state
 
 
 ## Alle relevanten Informationen

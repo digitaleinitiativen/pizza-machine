@@ -19,6 +19,11 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.score = 0;
 		this.scoreBox = null;
 
+		this.lifes = [];
+		this.lifesCount = 3;
+
+		this.gameOver = false;
+
 
 		// parameters
 		this.config = {
@@ -50,6 +55,14 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.add.image(512, 256, 'background');
 
 		this.scoreBox = this.add.text(0, 0, "Score: 0");
+
+		for(let i = 0; i < 3; i++) {
+			let lifes = this.add.group();
+			let life = lifes.create(this.scale.width - 60 + i * 20, 0, 'pizza');
+			life.setOrigin(0, 0);
+			life.setDisplaySize(20, 15);
+			this.lifes.push(life);
+		}
 
 		this.preparePlayerPositions();
 		this.player = this.add.sprite(
@@ -165,6 +178,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	update() {
+		if(this.gameOver) return;
 		if(this.cursors.left.isDown) {
 			this.positionPlayer(this.position - 1);
 		}
@@ -185,7 +199,18 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		}
 
 		if(this.pizzaPosition.y == this.pizzaDrops[this.pizzaPosition.x].length - 1) {
-			this.pizza.setFrame(1);
+			if(this.pizza.frame == 0)
+				this.pizza.setFrame(1);
+			else {
+				this.lifesCount--;
+				if(this.lifesCount >= 0) {
+					this.lifes[this.lifesCount].setFrame(1);
+					this.pizza.destroy();
+					this.spawnPizza();
+					this.score += this.config.pizzaCowBonus;
+					this.scoreBox.setText("Score: " + this.score);
+				} else this.gameOver = true;
+			}
 		}
 	}
 }
