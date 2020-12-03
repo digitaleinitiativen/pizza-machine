@@ -5,8 +5,8 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.player = null;
 		this.pizzas = null;
 		this.cursors = null;
-		this.playerPositions = null;
-		this.currentPlayerPosition = null;
+		this.positions = null;
+		this.position = null;
 		this.lastMove = null;
 
 		// parameters
@@ -41,7 +41,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		);
 		this.player.setOrigin(0, 1);
 		this.positionPlayer(Math.floor(
-			Math.random() * (this.playerPositions.length - 1)
+			Math.random() * (this.positions.length - 1)
 		));
 
 		this.pizzas = this.physics.add.group();
@@ -53,43 +53,49 @@ export default class PizzaMachineScene extends Phaser.Scene {
 
 	positionPlayer(position) {
 		if(this.time.now - this.config.tilt < this.lastMove) return;
-		let p = this.currentPlayerPosition = Math.max(0, Math.min(position, this.playerPositions.length - 1));
-		this.player.setPosition(this.playerPositions[p].x, this.scale.height);
-		this.player.setFrame(this.playerPositions[p].frame);
+		let p = this.position = Math.max(0, Math.min(position, this.positions.length - 1));
+		this.player.setPosition(this.positions[p].x, this.scale.height);
+		this.player.setFrame(this.positions[p].frame);
+		this.player.flipX = this.positions[p].inverted;
 		this.lastMove = this.time.now;
 	}
 
 	preparePlayerPositions() {
 		let i = 0, pw = 236;
 		let w = this.scale.width / 9;
-		this.playerPositions = [
+		this.positions = [
 			{
 				x: w * i++
 				,	frame: 0
+				,	inverted: false
 			}, {
 				x: w * i++
 				,	frame: 4
+				,	inverted: true
 			}, {
 				x: w * i++
 				,	frame: 2
+				,	inverted: false
 			}, {
 				x: w * i++
 				,	frame: 3
+				,	inverted: true
 			}, {
 				x: w * i++
 				,	frame: 1
+				,	inverted: false
 			}, {
 				x: w * i++
 				,	frame: 4
+				,	inverted: false
 			}, {
 				x: w * i++
 				,	frame: 0
+				,	inverted: true
 			}, {
 				x: w * i++
 				,	frame: 3
-			}, {
-				x: w * i++
-				,	frame: 2
+				,	inverted: false
 			}
 		];
 	}
@@ -113,10 +119,10 @@ export default class PizzaMachineScene extends Phaser.Scene {
 
 	update() {
 		if(this.cursors.left.isDown) {
-			this.positionPlayer(this.currentPlayerPosition - 1);
+			this.positionPlayer(this.position - 1);
 		}
 		else if(this.cursors.right.isDown) {
-			this.positionPlayer(this.currentPlayerPosition + 1);
+			this.positionPlayer(this.position + 1);
 		}
 	}
 }
