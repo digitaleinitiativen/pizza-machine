@@ -34,7 +34,7 @@ Ui, wir können das spielen unter.
 - [x] Pizza aufgefangen werden kann
 
 ### Boni
-- [ ] Score anzeigen
+- [x] Score anzeigen
 - [ ] Leben anzeigen
 - [ ] Leben reduzieren
 

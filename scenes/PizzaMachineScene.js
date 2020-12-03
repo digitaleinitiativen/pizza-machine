@@ -16,6 +16,9 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		};
 		this.pizzaDrops = null;
 
+		this.score = 0;
+		this.scoreBox = null;
+
 
 		// parameters
 		this.config = {
@@ -24,7 +27,9 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			playerMaxSpeed: 800,
 			playerAcceleration: 2000,
 			tilt: 300,
-			pizzaTick: 300
+			pizzaTick: 300,
+			pizzaCatchBonus: 5000,
+			pizzaCowBonus: -10000
 		}
 	}
 
@@ -43,6 +48,8 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	create() {
 
 		this.add.image(512, 256, 'background');
+
+		this.scoreBox = this.add.text(0, 0, "Score: 0");
 
 		this.preparePlayerPositions();
 		this.player = this.add.sprite(
@@ -173,6 +180,8 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		if(this.position == this.pizzaPosition.x  && this.pizzaPosition.y > 4) {
 			this.pizza.destroy();
 			this.spawnPizza();
+			this.score += this.config.pizzaCatchBonus;
+			this.scoreBox.setText("Score: " + this.score);
 		}
 
 		if(this.pizzaPosition.y == this.pizzaDrops[this.pizzaPosition.x].length - 1) {
