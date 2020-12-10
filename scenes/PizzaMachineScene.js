@@ -52,9 +52,13 @@ export default class PizzaMachineScene extends Phaser.Scene {
 
 	create() {
 
+		this.score = 0;
+		this.gameOver = false;
+		this.lifesCount = 3;
+
 		this.add.image(512, 256, 'background');
 
-		this.scoreBox = this.add.text(0, 0, "Score: 0");
+		this.scoreBox = this.add.text(5, 5, "Score: 0");
 
 		for(let i = 0; i < 3; i++) {
 			let lifes = this.add.group();
@@ -209,7 +213,12 @@ export default class PizzaMachineScene extends Phaser.Scene {
 					this.spawnPizza();
 					this.score += this.config.pizzaCowBonus;
 					this.scoreBox.setText("Score: " + this.score);
-				} else this.gameOver = true;
+				} else {
+					this.gameOver = true;
+					this.game.score = this.score;
+					this.scene.stop();
+					this.scene.start('score');
+				}
 			}
 		}
 	}
