@@ -51,7 +51,6 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	create() {
-
 		this.score = 0;
 		this.gameOver = false;
 		this.lifesCount = 3;
@@ -69,6 +68,10 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		}
 
 		this.preparePlayerPositions();
+
+		//this.showAll();
+		//return;
+
 		this.player = this.add.sprite(
 			0
 			, 0
@@ -85,6 +88,37 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.spawnPizza();
 
 		this.cursors = this.input.keyboard.createCursorKeys();
+	}
+
+	showAll() {
+		let players = this.add.group();		
+		for(let i = 0; i < this.positions.length; i++) {
+			let player = players.create(
+				this.positions[i].x,
+				this.scale.height,
+				'player'
+			);
+			player.setOrigin(0, 1);
+			player.setFrame(this.positions[i].frame);
+			player.flipX = this.positions[i].inverted;
+		}
+
+		let pizzas = this.add.group();
+		for(let i = 0; i < this.positions.length; i++) {
+			for(let j = 0; j < this.pizzaDrops[i].length; j++) {
+				let pizza = pizzas.create(
+					this.positions[i].x,
+					this.pizzaDrops[i][j],
+					'pizza'
+				);
+				pizza.angle = Math.random() * 90 - 45;
+				pizza.alpha = 0.5;
+				pizza.setOrigin(0, 0);
+				if(j == this.pizzaDrops[i].length - 1)
+					pizza.setFrame(1);
+			}
+		}
+
 	}
 
 	positionPlayer(position) {
@@ -158,6 +192,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		];
 		this.pizzaDrops = [
 			drops
+			,	drops
 			,	drops
 			,	drops
 			,	drops
