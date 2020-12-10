@@ -69,8 +69,10 @@ export default class PizzaMachineScene extends Phaser.Scene {
 
 		this.preparePlayerPositions();
 
-		//this.showAll();
-		//return;
+		/*
+		this.showAll();
+		this.gameOver = true;
+		return; //*/
 
 		this.player = this.add.sprite(
 			0
@@ -104,18 +106,20 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		}
 
 		let pizzas = this.add.group();
-		for(let i = 0; i < this.positions.length; i++) {
-			for(let j = 0; j < this.pizzaDrops[i].length; j++) {
+		for(let i = 0; i < this.pizzaDrops.length; i++) {
+			for(let j = 0; j < this.pizzaDrops[i].drops.length; j++) {
 				let pizza = pizzas.create(
-					this.positions[i].x,
-					this.pizzaDrops[i][j],
+					this.pizzaDrops[i].x,
+					this.pizzaDrops[i].drops[j],
 					'pizza'
 				);
-				pizza.angle = Math.random() * 90 - 45;
 				pizza.alpha = 0.5;
-				pizza.setOrigin(0, 0);
+				pizza.scale = 0.5;
+				pizza.setOrigin(0.5, 0.5);
 				if(j == this.pizzaDrops[i].length - 1)
 					pizza.setFrame(1);
+				else
+					pizza.angle = Math.random() * 90 - 45;
 			}
 		}
 
@@ -131,12 +135,12 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	positionPizza(position) {
-		this.pizzaPosition.y = Math.max(0, Math.min(position, this.pizzaDrops[this.pizzaPosition.x].length - 1));
+		this.pizzaPosition.y = Math.max(0, Math.min(position, this.pizzaDrops[this.pizzaPosition.x].drops.length - 1));
 		this.pizza.setPosition(
-			this.positions[this.pizzaPosition.x].x,
-			this.pizzaDrops[this.pizzaPosition.x][this.pizzaPosition.y]
+			this.pizzaDrops[this.pizzaPosition.x].x,
+			this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y]
 		);
-		if(this.pizzaPosition.y < this.pizzaDrops[this.pizzaPosition.x].length - 1)
+		if(this.pizzaPosition.y < this.pizzaDrops[this.pizzaPosition.x].drops.length - 1)
 			this.pizza.angle = Math.random() * 90 - 45;
 	}
 
@@ -180,7 +184,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		];
 
 		let j = 0;
-		let h = this.scale.height / 7;
+		let h = (this.scale.height + 87) / 7;
 		let drops = [
 			h * j++
 			,	h * j++
@@ -190,30 +194,51 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			,	h * j++
 			,	h * j++
 		];
+		i = 0;
 		this.pizzaDrops = [
-			drops
-			,	drops
-			,	drops
-			,	drops
-			,	drops
-			,	drops
-			,	drops
-			,	drops
-			,	drops
-		];
+			{
+				x: w * i++ + 40,
+				drops: drops
+			},	{
+				x: w * i++ + 25,
+				drops: drops
+			},	{
+				x: w * i++ + 60,
+				drops: drops
+			},	{
+				x: w * i++ + 60,
+				drops: drops
+			},	{
+				x: w * i++ + 60,
+				drops: drops
+			},	{
+				x: w * i++ + 180,
+				drops: drops
+			},	{
+				x: w * i++ + 40,
+				drops: drops
+			},	{
+				x: w * i++ + 80,
+				drops: drops
+			},	{
+				x: w * i++ + 80,
+				drops: drops
+			}];
 	}
 
 	spawnPizza() {
 		this.pizzaPosition.x = Math.floor(
-			Math.random() * (this.positions.length - 1)
+			Math.random() * (this.pizzaDrops.length - 1)
 		);
 		this.pizzaPosition.y = 0;
+	
 		this.pizza = this.pizzas.create(
-			this.positions[this.pizzaPosition.x].x,
-			this.pizzaDrops[this.pizzaPosition.x][this.pizzaPosition.y], 
+			this.pizzaDrops[this.pizzaPosition.x].x,
+			this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y], 
 			'pizza'
 		);
-		this.pizza.setOrigin(0, 0);
+		this.pizza.setOrigin(0.5, 0.5);
+		this.pizza.scale = 0.7;
 	}
 
 	update() {
@@ -237,7 +262,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			this.scoreBox.setText("Score: " + this.score);
 		}
 
-		if(this.pizzaPosition.y == this.pizzaDrops[this.pizzaPosition.x].length - 1) {
+		if(this.pizzaPosition.y == this.pizzaDrops[this.pizzaPosition.x].drops.length - 1) {
 			if(this.pizza.frame == 0)
 				this.pizza.setFrame(1);
 			else {

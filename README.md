@@ -29,16 +29,30 @@ Ui, wir können das spielen unter.
 - [x] Herunterfallende Pizza gestalten
 
 ## TODOs - Show III
+
 - [x] Player Übergangslose Stati umstellen
 - [x] Pizza x Stati (inklusive auf dem Boden liegen)
 - [x] Pizza aufgefangen werden kann
 
 ### Boni
+
 - [x] Score anzeigen
 - [x] Leben anzeigen
 - [x] Leben reduzieren
 - [x] Game over state
 
+## TODOs - Show IV
+
+- [ ] Bissi ausbalanzieren
+- [ ] Hints einbauen
+- [ ] QR Code einblenden
+- [ ] Fremdsteuerbar machen
+
+## TODOs - Future
+
+- [ ] Neu-Start Spiel mit Tastatur
+- [ ] Two drop slots
+- [ ] Life Counter after reset
 
 ## Alle relevanten Informationen
 
@@ -49,6 +63,9 @@ Ui, wir können das spielen unter.
 * Amaranth Red (rot): #D72638
 * Blue Munsell (blau): #2D93AD
 * Inspiration: https://electronicplastic.com/game/?company=&id=429&skip=&filter=&search=chef
+* https://www.piesocket.com
+* http://goqr.me/api/
+
 
 ## Benützte Bilder
 

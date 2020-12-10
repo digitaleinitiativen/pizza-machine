@@ -16,7 +16,7 @@ const config = {
 			gravity: { y: 400 }
 		}
 	},
-	scene: [StartScene, PizzaMachineScene, ScoreScene]
+	scene: [PizzaMachineScene, ScoreScene]
 }
 
 export default new Phaser.Game(config)
