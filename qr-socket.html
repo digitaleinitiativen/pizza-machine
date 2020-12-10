@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket Test</title>
+</head>
+<body>
+<script>
+
+	// Web Socket
+	var socket = new WebSocket(`wss://us-nyc-1.websocket.me/v3/1?api_key=QJ3733IrJhU667fuYoITyxYedPDd9VST5xuhV6Xz&notify_self`);
+
+	var apiKey =  socket.onmessage = function(message) {
+    	console.log(`Incoming message: ${message.data}`);
+	}
+
+	socket.onopen = function() {
+	    console.log(`Websocket connected`);
+
+	    //Let others know I have arrived!
+	    socket.send(JSON.stringify({
+	        event: 'new_joining',
+	        sender: 'pizza-machine',
+	    }));
+	}
+
+	// QR Code
+
+	var uri = window.location.href;
+	var bang = ((1<<24)*Math.random()|0).toString(16);
+	var size = 400;
+	console.log('https://api.qrserver.com/v1/create-qr-code/?size='
+		+ size + 'x'
+		+ size + '&data=' + uri + '#' + bang
+	);
+
+
+</script>
+</body>
+</html>
