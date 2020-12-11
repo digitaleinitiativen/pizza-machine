@@ -13,6 +13,7 @@
 
 	var apiKey =  socket.onmessage = function(message) {
     	console.log(`Incoming message: ${message.data}`);
+    	console.log(message);
 	}
 
 	socket.onopen = function() {
