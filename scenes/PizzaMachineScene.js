@@ -39,15 +39,15 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.spritesheet('player', 'assets/player-2.png', {
-			frameWidth: 236,
-			frameHeight: 320
+		this.load.spritesheet('player', 'assets/player-3.png', {
+			frameWidth: 280,
+			frameHeight: 326
 		});
 		this.load.spritesheet('pizza', 'assets/pizza-2.png', {
 			frameWidth: 128,
 			frameHeight: 87
 		});
-		this.load.image('background', 'assets/background.png');
+		this.load.image('background', 'assets/background-2.png');
 	}
 
 	create() {
@@ -149,36 +149,40 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		let w = this.scale.width / 9;
 		this.positions = [
 			{
-				x: w * i++
+				x: 140 - 140
 				,	frame: 0
 				,	inverted: false
 			}, {
-				x: w * i++
-				,	frame: 4
-				,	inverted: true
-			}, {
-				x: w * i++
-				,	frame: 2
-				,	inverted: false
-			}, {
-				x: w * i++
-				,	frame: 3
-				,	inverted: true
-			}, {
-				x: w * i++
+				x: 256 - 145
 				,	frame: 1
 				,	inverted: false
 			}, {
-				x: w * i++
+				x: 348 - 145
+				,	frame: 2
+				,	inverted: false
+			}, {
+				x: 474 - 145
+				,	frame: 3
+				,	inverted: false
+			}, {
+				x: 553 - 145
 				,	frame: 4
 				,	inverted: false
 			}, {
-				x: w * i++
-				,	frame: 0
-				,	inverted: true
+				x: 623 - 145
+				,	frame: 5
+				,	inverted: false
 			}, {
-				x: w * i++
-				,	frame: 3
+				x: 727 - 145
+				,	frame: 6
+				,	inverted: false
+			}, {
+				x: 812 - 145
+				,	frame: 7
+				,	inverted: false
+			}, {
+				x: 885 - 145
+				,	frame: 8
 				,	inverted: false
 			}
 		];

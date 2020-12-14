@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Die Digitale Initiativen Pizza Machine - Jede(r) versteht um was es geht - Controls</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+        maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+        
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+	<style>
+		* {
+			font-size: 200px;
+		}
+	</style>
+</head>
+
+<body>
+
+<button id="left" data="left">👈</button>
+<button id="enter" data="enter">🟡</button>
+<button id="right" data="right">👉</button>
+<div id="score"></div>
+
+<script>
+
+let bang = window.location.hash.substr(1);
+let socketUrl = 'wss://us-nyc-1.websocket.me/v3/1?api_key=QJ3733IrJhU667fuYoITyxYedPDd9VST5xuhV6Xz&notify_self';
+let socket = new WebSocket(socketUrl);
+
+socket.onmessage = function(message) {
+	console.log(message);
+}
+
+socket.onopen = function() {
+    console.log(`Websocket connected`);
+    socket.send(JSON.stringify({
+        event: 'control-ready',
+        bang: bang
+    }));
+};
+
+function sendMessage() {
+	socket.send(JSON.stringify({
+		event: 'control',
+		key: this.attributes['data'].nodeValue,
+		bang: bang
+	}));
+};
+
+document.getElementById('left').addEventListener('click', sendMessage);
+document.getElementById('enter').addEventListener('click', sendMessage);
+document.getElementById('right').addEventListener('click', sendMessage);
+
+</script>
+
+</body>
+
+</html>

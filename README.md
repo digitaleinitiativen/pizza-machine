@@ -43,7 +43,7 @@ Ui, wir können das spielen unter.
 
 ## TODOs - Show IV
 
-- [ ] Bissi ausbalanzieren
+- [x] Bissi ausbalanzieren
 - [ ] Hints einbauen
 - [ ] QR Code einblenden
 - [ ] Fremdsteuerbar machen
