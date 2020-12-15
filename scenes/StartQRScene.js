@@ -9,9 +9,10 @@ export default class StartQRScene extends Phaser.Scene {
 		this.load.image('background-qr', 'assets/background-qr.png');
 
 		// QR Code
-		let uri = window.location.origin;
-		uri += '/controls.html?';
-		uri += 'hash=' + this.bang + '|' + this.channel;
+		let uri = window.location.origin + window.location.pathname.replace('index', 'controls');
+		if(uri.indexOf('controls') == -1)
+			uri += '/controls.html';
+		uri += '?hash=' + this.bang + '|' + this.channel;
 		let size = 400;
 		let qrURL = 'https://api.qrserver.com/v1/create-qr-code/?size='
 			+ size + 'x'
