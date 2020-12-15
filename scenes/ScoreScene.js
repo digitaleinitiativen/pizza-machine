@@ -4,13 +4,16 @@ export default class ScoreScene extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image('background', 'assets/background.png');
+		this.load.image('background-done', 'assets/background-done.png');
 	}
 
 	create() {
-		this.add.image(512, 256, 'background');
-		this.add.text(5, 5, "YOUR SCORE IS " + this.game.score);
-		let start = this.add.text(5, 30, "START OVER AGAIN");
+		this.add.image(512, 256, 'background-done');
+		let t = this.add.text(213, 320, this.game.score, {
+			fontSize: 40,
+			color: 'black'
+		});
+		t.setOrigin(0.5, 0.5);
 
 		this.input.once('pointerdown', function () {
 
@@ -18,5 +21,24 @@ export default class ScoreScene extends Phaser.Scene {
             this.scene.start('pizza-machine');
 
         }, this);
+
+		let ti = this;
+		if(this.game.registry.get('socket')) {			
+			this.game.registry.get('socket').onmessage = function(message) {
+				let data = JSON.parse(message.data);
+				if(data.event == 'control' && data.key == "enter") {
+					ti.scene.stop();
+					ti.scene.start('pizza-machine');
+				}
+			}
+		}
+
+		this.time.addEvent({
+			delay: 10000,
+			callback: function() {
+	            ti.scene.stop();
+	            ti.scene.start('start');
+			}
+		});
 	}
 }

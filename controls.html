@@ -14,31 +14,64 @@
     <meta name="mobile-web-app-capable" content="yes" />
 
 	<style>
-		* {
-			font-size: 200px;
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #000000;
+		}
+		html, body{
+			height: 100%;
+		}
+		#controls {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			-moz-transform: translateX(-50%) translateY(-50%);
+			-webkit-transform: translateX(-50%) translateY(-50%);
+			transform: translateX(-50%) translateY(-50%);
+			user-drag: none; 
+			user-select: none;
+			-moz-user-select: none;
+			-webkit-user-drag: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
 		}
 	</style>
 </head>
 
 <body>
 
-<button id="left" data="left">👈</button>
-<button id="enter" data="enter">🟡</button>
-<button id="right" data="right">👉</button>
-<div id="score"></div>
+<img id="controls" src="assets/controls.png" usemap="#controls" />
+
+<map name="controls">
+  <area shape="rect" coords="0,340,117,457" alt="Links" href="#" id="left" data="left">
+  <area shape="rect" coords="117,340,247,457" alt="Enter" href="#" id="enter" data="enter">
+  <area shape="rect" coords="247,340,360,457" alt="Rechts" href="#" id="right" data="right">
+</map>
 
 <script>
 
-let bang = window.location.hash.substr(1);
-let socketUrl = 'wss://us-nyc-1.websocket.me/v3/1?api_key=QJ3733IrJhU667fuYoITyxYedPDd9VST5xuhV6Xz&notify_self';
+let bang = new URLSearchParams(window.location.search).get('hash').split('|').shift();
+console.log(new URLSearchParams(window.location.search).get('hash').split('|'));
+let channel = new URLSearchParams(window.location.search).get('hash').split('|').pop();
+
+let socketUrl = 'wss://us-nyc-1.websocket.me/v3/' 
+	+ channel 
+	+ '?api_key=QJ3733IrJhU667fuYoITyxYedPDd9VST5xuhV6Xz&notify_self';
+
 let socket = new WebSocket(socketUrl);
 
 socket.onmessage = function(message) {
-	console.log(message);
+	let data = JSON.parse(message.data);
+	if(data.bang != bang) return;
+	switch(data.event) {
+		case 'vibrate':
+
+		break;
+	}
 }
 
 socket.onopen = function() {
-    console.log(`Websocket connected`);
     socket.send(JSON.stringify({
         event: 'control-ready',
         bang: bang

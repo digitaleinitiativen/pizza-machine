@@ -17,23 +17,16 @@ const config = {
 			gravity: { y: 400 }
 		}
 	},
-	scene: [PizzaMachineScene, ScoreScene]
+	scene: [StartScene, PizzaMachineScene, ScoreScene]
 }
 
-let socketUrl = 'wss://us-nyc-1.websocket.me/v3/1?api_key=QJ3733IrJhU667fuYoITyxYedPDd9VST5xuhV6Xz&notify_self';
-let socket = new WebSocket(socketUrl);
+if(window.location.hash == "#qr") {
+	config.scene.shift();
+	config.scene.unshift(StartQRScene);
+} else if(window.location.hash == "#game")
+	config.scene.shift();
 
-socket.onmessage = function(message) {
-	
-}
-
-socket.onopen = function() {
-    console.log(`Websocket connected`);
-    socket.send(JSON.stringify({
-        event: 'new game',
-        sender: 'pizza-machine'
-    }));
-};
 
 let game = new Phaser.Game(config);
+
 export default game;
