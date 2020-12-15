@@ -15,13 +15,6 @@ export default class ScoreScene extends Phaser.Scene {
 		});
 		t.setOrigin(0.5, 0.5);
 
-		this.input.once('pointerdown', function () {
-
-            this.scene.stop();
-            this.scene.start('pizza-machine');
-
-        }, this);
-
 		let ti = this;
 		if(this.game.registry.get('socket')) {			
 			this.game.registry.get('socket').onmessage = function(message) {
@@ -36,9 +29,21 @@ export default class ScoreScene extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 10000,
 			callback: function() {
-	            ti.scene.stop();
-	            ti.scene.start('start');
+	            ti.moveOn();
 			}
 		});
+
+		this.input.once('pointerdown', this.moveOn, this);
+		this.time.addEvent({
+			delay: 10000,
+			callback: function() {
+				ti.input.keyboard.once('keydown', ti.moveOn, ti);
+			}
+		});
+	}
+
+	moveOn() {
+		this.scene.stop();
+		this.scene.start('pizza-machine');		
 	}
 }

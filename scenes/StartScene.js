@@ -4,19 +4,18 @@ export default class StartScene extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image('background', 'assets/background.png');
+		this.load.image('background-start', 'assets/background-start.png');
 	}
 
 	create() {
-		this.add.image(512, 256, 'background');
-		this.add.text(5, 5, "WELCOME TO PIZZA MACHINE");
-		let start = this.add.text(5, 30, "START");
+		this.add.image(512, 256, 'background-start');
 
-		this.input.once('pointerdown', function () {
+		this.input.once('pointerdown', this.moveOn, this);
+		this.input.keyboard.once('keydown', this.moveOn, this);
+	}
 
-            this.scene.stop();
-            this.scene.start('pizza-machine');
-
-        }, this);
+	moveOn() {
+		this.scene.stop();
+		this.scene.start('pizza-machine');		
 	}
 }
