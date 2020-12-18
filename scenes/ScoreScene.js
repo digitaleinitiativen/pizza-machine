@@ -29,7 +29,8 @@ export default class ScoreScene extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 10000,
 			callback: function() {
-	            ti.moveOn();
+	            ti.scene.stop();
+				ti.scene.start('start');	
 			}
 		});
 

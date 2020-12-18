@@ -47,12 +47,8 @@ export default class PizzaMachineScene extends Phaser.Scene {
 
 		// parameters
 		this.config = {
-			pizzaRotation: 720,
-			pizzaSpawnSpeed: 200,
-			playerMaxSpeed: 800,
-			playerAcceleration: 2000,
 			tilt: 200,
-			pizzaTick: 300,
+			pizzaTick: 400,
 			pizzaCatchBonus: 5000,
 			pizzaCowBonus: -10000
 		}
