@@ -35,12 +35,7 @@ export default class ScoreScene extends Phaser.Scene {
 		});
 
 		this.input.once('pointerdown', this.moveOn, this);
-		this.time.addEvent({
-			delay: 10000,
-			callback: function() {
-				ti.input.keyboard.once('keydown', ti.moveOn, ti);
-			}
-		});
+		this.input.keyboard.once('keydown-SPACE', this.moveOn, this);
 	}
 
 	moveOn() {

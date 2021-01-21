@@ -62,7 +62,7 @@ export default class StartQRScene extends Phaser.Scene {
         		t.moveOn();
         };
 		this.input.once('pointerdown', this.moveOn, this);
-		this.input.keyboard.once('keydown', this.moveOn, this);
+		this.input.keyboard.once('keydown-SPACE', this.moveOn, this);
 	}
 
 	moveOn() {

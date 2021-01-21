@@ -35,13 +35,15 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			"Hab sie",
 			"Pizza digitalo",
 			"Logo Logo",
-			"Heiß und fettig"
+			"Heiß und fettig",
+			"Hurrrrrray"
 		];
 
 		this.nas = [
 			"Mamma mia",
 			"Bleib doch liegen",
-			"Whoopsie"
+			"Whoopsie",
+			"Damn"
 		];
 
 

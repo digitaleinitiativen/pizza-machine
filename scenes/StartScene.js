@@ -11,7 +11,7 @@ export default class StartScene extends Phaser.Scene {
 		this.add.image(512, 256, 'background-start');
 
 		this.input.once('pointerdown', this.moveOn, this);
-		this.input.keyboard.once('keydown', this.moveOn, this);
+		this.input.keyboard.once('keydown-SPACE', this.moveOn, this);
 	}
 
 	moveOn() {

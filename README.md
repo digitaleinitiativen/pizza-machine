@@ -44,15 +44,15 @@ Ui, wir können das spielen unter: https://digitaleinitiativen.github.io/pizza-m
 ## TODOs - Show IV
 
 - [x] Bissi ausbalanzieren
-- [ ] Hints einbauen
-- [ ] QR Code einblenden
-- [ ] Fremdsteuerbar machen
+- [x] Hints einbauen
+- [x] QR Code einblenden
+- [x] Fremdsteuerbar machen
 
 ## TODOs - Future
 
-- [ ] Neu-Start Spiel mit Tastatur
-- [ ] Two drop slots
-- [ ] Life Counter after reset
+- [x] Neu-Start Spiel mit Tastatur
+- [x] Two drop slots
+- [x] Life Counter after reset
 
 ## Alle relevanten Informationen
 
