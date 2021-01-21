@@ -61,8 +61,12 @@ export default class StartQRScene extends Phaser.Scene {
         	if(data.event == 'control-ready')
         		t.moveOn();
         };
+        this.game.registry.get('socket').onclose = function(message) {
+			t.scene.stop();
+			t.scene.start('pizza-machine');
+        };
 		this.input.once('pointerdown', this.moveOn, this);
-		this.input.keyboard.once('keydown', this.moveOn, this);
+		this.input.keyboard.once('keydown-SPACE', this.moveOn, this);
 	}
 
 	moveOn() {
