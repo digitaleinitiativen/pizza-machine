@@ -44,6 +44,12 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			"Whoopsie"
 		];
 
+		this.uhyas = [
+			"Pronto!",
+			"E ancora!",
+			"Nochmal!"
+		];
+
 
 		// parameters
 		this.config = {
@@ -129,6 +135,18 @@ export default class PizzaMachineScene extends Phaser.Scene {
 				}
 			}
 		}
+		this.input.keyboard.on('keydown-N', this.restart, this);
+	}
+
+	restart() {
+		this.score = 0;
+		this.gameOver = false;
+		this.lifesCount = 3;
+		this.lifes[0].setFrame(2);
+		this.lifes[1].setFrame(2);
+		this.lifes[2].setFrame(2);
+		this.scoreBox.setText("Yum: " + this.score);
+		this.scream(this.uhyas[Math.floor(this.uhyas.length * Math.random())]);
 	}
 
 	showAll() {

@@ -50,7 +50,7 @@ Ui, wir können das spielen unter: https://digitaleinitiativen.github.io/pizza-m
 
 ## TODOs - Future
 
-- [ ] Neu-Start Spiel mit Tastatur
+- [x] Neu-Start Spiel mit Tastatur
 - [ ] Two drop slots
 - [ ] Life Counter after reset
 
