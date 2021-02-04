@@ -75,6 +75,11 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			frameWidth: 30,
 			frameHeight: 30
 		});
+
+		this.load.spritesheet('sausage', 'assets/sausage.png', {
+			frameWidth: 40,
+			frameHeight: 120
+		});
 		this.load.image('background', 'assets/background-2.png');
 	}
 
@@ -98,6 +103,17 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			life.setOrigin(0.5, 0.5);
 			this.lifes.push(life);
 		}
+
+		let sausage = this.add.sprite(870, 194, 'sausage', 0);
+
+		this.anims.create({
+			key: 'wackeln',
+			frames: this.anims.generateFrameNumbers('sausage', { frames: [0, 1, 2, 3, 4, 3, 2, 1 ] }),
+			frameRate: 4,
+			repeat: -1
+		});
+
+		sausage.play('wackeln');
 
 		this.preparePlayerPositions();
 
