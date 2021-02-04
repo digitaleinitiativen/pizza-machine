@@ -200,6 +200,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.lifes[0].setFrame(2);
 		this.lifes[1].setFrame(2);
 		this.lifes[2].setFrame(2);
+		this.pizzaPlate.clear(true);
 		this.scoreBox.setText("Yum: " + this.score);
 		this.scream(this.uhyas[Math.floor(this.uhyas.length * Math.random())]);
 	}
