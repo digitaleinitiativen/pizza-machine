@@ -1,21 +1,35 @@
 export default class PizzaMachineScene extends Phaser.Scene {
 	constructor() {
 		super('pizza-machine');
-
 		this.player = null;
+
+		this.PIZZA_STATE = {
+			SPENDY: 1,
+			BELTY: 2,
+			FELTY: 3
+		};
+
 		this.pizza = null;
 		this.pizzas = null;
 		this.pizzaPlate = null;
+		this.pizzaState = null;
 		this.cursors = null;
 		this.positions = null;
 		this.position = null;
 		this.lastMove = null;
 		this.lastPizzaMove = null;
+		this.pizzaTargetDrop = null;
 		this.pizzaPosition = {
 			x: null,
 			y: null
 		};
 		this.pizzaDrops = null;
+
+		this.conveyerBeltX = null;
+		this.conveyerBeltY = 75;
+
+		this.bigSpenderX = 863;
+		this.bigSpenderY = 55;
 
 		this.score = 0;
 		this.scoreBox = null;
@@ -56,7 +70,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		// parameters
 		this.config = {
 			tilt: 200,
-			pizzaTick: 400,
+			pizzaTick: 200,
 			pizzaCatchBonus: 5000,
 			pizzaCowBonus: -10000
 		}
@@ -80,7 +94,12 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			frameWidth: 40,
 			frameHeight: 120
 		});
+		this.load.spritesheet('wheels', 'assets/conveyer-belt-wheels.png', {
+			frameWidth: 40,
+			frameHeight: 40
+		});
 		this.load.image('background', 'assets/background-2.png');
+		this.load.image('conveyer-belt-front', 'assets/conveyer-belt-front.png');
 	}
 
 	create() {
@@ -89,6 +108,9 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		this.lifesCount = 3;
 
 		this.add.image(512, 256, 'background');
+		let cbf = this.add.image(512, 62, 'conveyer-belt-front');
+		cbf.depth = 101010101;
+
 
 		this.scoreBox = this.add.text(25, 188, "Yum: 0", {
 			color: 'black'
@@ -114,6 +136,21 @@ export default class PizzaMachineScene extends Phaser.Scene {
 		});
 
 		sausage.play('wackeln');
+
+
+		this.anims.create({
+			key: 'rotate',
+			frames: this.anims.generateFrameNumbers('wheels', {frames: [0, 1, 2]}),
+			frameRate: 4,
+			repeat: -1
+		});
+
+		for(let i = 0; i < 11; i++) {
+			let wheel = this.add.sprite(25 + i * 97, 99, 'wheels', 0);
+			wheel.play('rotate');
+			wheel.rotation = Math.random();
+		}
+
 
 		this.preparePlayerPositions();
 
@@ -214,13 +251,43 @@ export default class PizzaMachineScene extends Phaser.Scene {
 	}
 
 	positionPizza(position) {
-		this.pizzaPosition.y = Math.max(0, Math.min(position, this.pizzaDrops[this.pizzaPosition.x].drops.length - 1));
-		this.pizza.setPosition(
-			this.pizzaDrops[this.pizzaPosition.x].x,
-			this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y].y
-		);
-		this.pizza.angle = this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y].angle;
-		this.pizza.setFrame(this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y].frame);
+		switch(this.pizzaState) {
+			case this.PIZZA_STATE.SPENDY:
+				this.pizzaPosition.x = 7; 
+				if(this.pizzaTargetDrop == this.pizzaPosition.x)
+					this.pizzaState = this.PIZZA_STATE.FELTY;
+				else
+					this.pizzaState = this.PIZZA_STATE.BELTY;
+				this.pizza.setPosition(
+					this.conveyerBeltX[this.pizzaPosition.x],
+					this.conveyerBeltY
+				);
+			break;
+			case this.PIZZA_STATE.BELTY:
+				if(this.pizzaTargetDrop < this.pizzaPosition.x)
+					this.pizzaPosition.x -= 0.5;
+				else
+					this.pizzaPosition.x += 0.5;
+				this.pizza.setPosition(
+					(this.conveyerBeltX[Math.floor(this.pizzaPosition.x)]
+					+	this.conveyerBeltX[Math.ceil(this.pizzaPosition.x)])/2,
+					this.conveyerBeltY
+				);
+				this.pizza.angle = Math.random() * 20 - 10;
+				if(this.pizzaTargetDrop == this.pizzaPosition.x)
+					this.pizzaState = this.PIZZA_STATE.FELTY;
+			break;
+			case this.PIZZA_STATE.FELTY:
+				this.pizzaPosition.y = Math.max(0, Math.min(position, this.pizzaDrops[this.pizzaPosition.x].drops.length - 1));
+				this.pizza.setPosition(
+					this.pizzaDrops[this.pizzaPosition.x].x,
+					this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y].y
+				);
+				this.pizza.angle = this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y].angle;
+				this.pizza.setFrame(this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y].frame);
+			break;
+		}
+
 	}
 
 	preparePlayerPositions() {
@@ -258,17 +325,30 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			{ x: 904, drops: drops, catch: [5, 6] },
 			{ x: 980, drops: drops, catch: [7, 8] }
 		];
+		this.conveyerBeltX = [
+			50,
+			50 + 116 * 1,
+			50 + 116 * 2,
+			50 + 116 * 3, 
+			50 + 116 * 4,
+			50 + 116 * 5,
+			50 + 116 * 6,
+			50 + 116 * 7,
+			50 + 116 * 8
+		];
 	}
 
 	spawnPizza() {
-		this.pizzaPosition.x = Math.floor(
+		this.pizzaTargetDrop = Math.floor(
 			Math.random() * (this.pizzaDrops.length - 1)
 		);
-		this.pizzaPosition.y = 0;
+		this.pizzaPosition.y = 1;
+
+		this.pizzaState = this.PIZZA_STATE.SPENDY;
 	
 		this.pizza = this.pizzas.create(
-			this.pizzaDrops[this.pizzaPosition.x].x,
-			this.pizzaDrops[this.pizzaPosition.x].drops[this.pizzaPosition.y].y, 
+			this.bigSpenderX,
+			this.bigSpenderY, 
 			'pizza'
 		);
 		this.pizza.setOrigin(0.5, 0.5);
@@ -325,6 +405,7 @@ export default class PizzaMachineScene extends Phaser.Scene {
 			this.positionPizza(this.pizzaPosition.y + 1);
 			this.lastPizzaMove = this.time.now;
 		}
+		if(this.pizzaState != this.PIZZA_STATE.FELTY) return;
 		if(this.position == this.pizzaPosition.x
 			&& this.pizzaDrops[this.pizzaPosition.x].catch.indexOf(this.pizzaPosition.y) != -1)
 		{
